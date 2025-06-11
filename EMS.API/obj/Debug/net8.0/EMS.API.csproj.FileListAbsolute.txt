@@ -110,3 +110,4 @@
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/Debug/net8.0/EMS.API.pdb
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/Debug/net8.0/EMS.API.genruntimeconfig.cache
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/Debug/net8.0/ref/EMS.API.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/Debug/net8.0/EMS.API.sourcelink.json

@@ -7,11 +7,11 @@ public class EventCategoryConfiguration : IEntityTypeConfiguration<EventCategory
 {
     public void Configure(EntityTypeBuilder<EventCategory> builder)
     {
-        builder.ToTable("EventCategory");
+        builder.ToTable("EventCategories");
         builder.HasKey(c => c.Id);
 
         builder.Property(c => c.Name).IsRequired()
-            .HasMaxLength(50);
+            .HasMaxLength(100);
         
         builder.HasIndex(c => c.Name).IsUnique();
         

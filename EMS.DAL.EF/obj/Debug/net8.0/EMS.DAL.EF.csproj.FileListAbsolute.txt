@@ -12,3 +12,4 @@
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/obj/Debug/net8.0/EMS.DAL.EF.pdb
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/obj/Debug/net8.0/EMS.DAL.EF.genruntimeconfig.cache
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/obj/Debug/net8.0/ref/EMS.DAL.EF.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/obj/Debug/net8.0/EMS.DAL.EF.sourcelink.json

@@ -10,7 +10,7 @@ public class Event
     public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     
     public int EventCategoryId { get; set; }
-    public int OrganazierId { get; set; }
+    public int OrganizerId { get; set; }
     public int VenueId { get; set; }
     
     public virtual EventCategory? EventCategory { get; set; }
