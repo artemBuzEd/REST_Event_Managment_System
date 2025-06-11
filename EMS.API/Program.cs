@@ -1,4 +1,5 @@
 using EMS.DAL.EF.Data;
+using EMS.DAL.EF.Data.BogusSeed;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -39,6 +40,13 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine("Error: Could not create database ...");
         Console.WriteLine(ex.Message);
     }
+}
+
+using (var scope = app.Services.CreateScope()){
+    var dbContext = scope.ServiceProvider.GetRequiredService<EMSManagmentDbContext>();
+    
+    var seeder = new DatabaseSeeder(dbContext);
+    seeder.Seed();
 }
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

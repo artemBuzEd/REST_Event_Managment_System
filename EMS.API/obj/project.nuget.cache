@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "CtF970WaM9s=",
+  "dgSpecHash": "DmGmsdDbxz0=",
   "success": true,
   "projectFilePath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj",
   "expectedPackageFiles": [
+    "/Users/artembuziak/.nuget/packages/bogus/35.6.3/bogus.35.6.3.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
