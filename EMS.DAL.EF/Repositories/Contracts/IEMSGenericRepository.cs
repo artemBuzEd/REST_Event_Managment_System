@@ -1,4 +1,7 @@
 using System.Linq.Expressions;
+using EMS.DAL.EF.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace EMS.DAL.EF.Repositories.Contracts;
 
 public interface IEMSGenericRepository<TEntity> where TEntity : class

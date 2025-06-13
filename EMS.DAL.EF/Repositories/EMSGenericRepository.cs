@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 namespace EMS.DAL.EF.Repositories;
 
-public class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEntity> where TEntity : class
+public abstract class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEntity> where TEntity : class
 {
     protected readonly EMSManagmentDbContext _context;
     protected readonly DbSet<TEntity> table;
