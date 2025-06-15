@@ -24,7 +24,7 @@ public class EMSRegistrationRepository : EMSGenericRepository<Registration>, IEM
     public async Task<IEnumerable<Registration?>> GetByStatusAsync(string status)
     {
         return await _context.Registrations.AsNoTracking()
-            .Where(r => r.Status == status)
+            .Where(r => r.Status.ToLower() == status.ToLower())
             .ToListAsync();
     }
 }

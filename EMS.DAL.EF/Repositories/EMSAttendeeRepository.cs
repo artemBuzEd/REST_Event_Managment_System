@@ -16,14 +16,14 @@ public class EMSAttendeeRepository : EMSGenericRepository<Attendee>, IEMSAttende
     public async Task<IEnumerable<Attendee?>> GetByFirstNameAsync(string firstName)
     {
         return await _context.Attendees.AsNoTracking()
-            .Where(a => a.FirstName == firstName)
+            .Where(a => a.FirstName.ToLower() == firstName.ToLower())
             .ToListAsync();
     }
 
     public async Task<IEnumerable<Attendee?>> GetByLastNameAsync(string lastName)
     {
         return await _context.Attendees.AsNoTracking()
-            .Where(a => a.LastName == lastName)
+            .Where(a => a.LastName.ToLower() == lastName.ToLower())
             .ToListAsync();
     }
 

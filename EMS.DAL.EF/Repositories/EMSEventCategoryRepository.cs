@@ -15,8 +15,9 @@ public class EMSEventCategoryRepository : EMSGenericRepository<EventCategory>, I
 
     public async Task<IEnumerable<EventCategory?>> GetByNameAsync(string name)
     {
+        string search = name.ToLower();
         return await _context.EventCategories.AsNoTracking()
-            .Where(c => c.Name.Contains(name))
+            .Where(c => c.Name.ToLower().Contains(search))
             .ToListAsync();
     }
 }

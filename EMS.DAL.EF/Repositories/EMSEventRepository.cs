@@ -15,7 +15,7 @@ public class EMSEventRepository : EMSGenericRepository<Event>, IEMSEventReposito
     public async Task<IEnumerable<Event?>> GetByNameAsync(string name)
     {
         return await _context.Events.AsNoTracking()
-            .Where(e => e.Name.Contains(name))
+            .Where(e => e.Name.ToLower().Contains(name.ToLower()))
             .ToListAsync();
     }
 

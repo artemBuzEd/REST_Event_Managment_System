@@ -12,7 +12,8 @@ public interface IEMSGenericRepository<TEntity> where TEntity : class
     Task UpdateAsync(TEntity entity);
     Task DeleteByIdAsync(int id);
     Task DeleteAsync(TEntity entity);
+    Task<TEntity> CreateAsync(TEntity entity);
     
     IQueryable<TEntity> FindAll();
-    Task<IQueryable<TEntity>> FindByCondition(Expression<Func<TEntity, bool>> predicate);
+    Task<IEnumerable<TEntity>> FindByCondition(Expression<Func<TEntity, bool>> predicate);
 }

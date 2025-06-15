@@ -39,13 +39,21 @@ public class UnitOfWork : IUnitOfWork
         _transaction = await _context.Database.BeginTransactionAsync(cancellationToken);
     }
 
-    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default)
+    public async Task CommitTransactionAsync(CancellationToken cancellationToken = default) 
     {
+        if (_transaction == null)
+        {
+            throw new InvalidOperationException("The transaction has not been started. [CommitTransactionAsync()]");
+        }
         await _transaction.CommitAsync(cancellationToken);
     }
 
     public async Task RollbackTransactionAsync(CancellationToken cancellationToken = default)
     {
+        if (_transaction == null)
+        {
+            throw new InvalidOperationException("The transaction has not been started. [RollbackTransactionAsync()]");
+        }
         await _transaction.RollbackAsync(cancellationToken);
     }
 

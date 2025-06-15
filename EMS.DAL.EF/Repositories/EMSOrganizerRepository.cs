@@ -14,7 +14,7 @@ public class EMSOrganizerRepository : EMSGenericRepository<Organizer>, IEMSOrgan
     public async Task<IEnumerable<Organizer?>> GetByFullNameAsync(string fullName)
     {
         return await _context.Organizers.AsNoTracking()
-            .Where(o => o.Name.Contains(fullName))
+            .Where(o => o.Name.ToLower().Contains(fullName.ToLower()))
             .ToListAsync();
     }
 

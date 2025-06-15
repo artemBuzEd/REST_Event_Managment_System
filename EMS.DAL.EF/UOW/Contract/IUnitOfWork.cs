@@ -2,7 +2,7 @@ using EMS.DAL.EF.Repositories.Contracts;
 
 namespace EMS.DAL.EF.UOW.Contract;
 
-public interface IUnitOfWork 
+public interface IUnitOfWork
 {
     IEMSAttendeeRepository Attendees { get; }
     IEMSEventRepository Events { get; }

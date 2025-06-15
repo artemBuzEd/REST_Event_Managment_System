@@ -17,7 +17,7 @@ public abstract class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEnt
 
     public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
     {
-        return await table.ToListAsync();
+        return await table.AsNoTracking().ToListAsync();
     }
 
     public virtual async Task<TEntity> GetByIdAsync(int id)
@@ -41,15 +41,16 @@ public abstract class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEnt
         {
             throw new ArgumentNullException(nameof(entity) + "Can't be null. [EMSGenericRepository.UpdateAsync()]");
         }
-        table.Update(entity);
-        await _context.SaveChangesAsync();
+        await Task.Run(() => table.Update(entity));
     }
 
     public virtual async Task DeleteByIdAsync(int id)
     {
         var entity = await GetByIdAsync(id);
-        table.Remove(entity);
-        await _context.SaveChangesAsync();
+        if (entity != null)
+        {
+            await Task.Run(() => table.Remove(entity));
+        }
     }
 
     public virtual async Task DeleteAsync(TEntity entity)
@@ -58,8 +59,13 @@ public abstract class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEnt
         {
             throw new ArgumentNullException(nameof(entity) + "Can't be null. [EMSGenericRepository.DeleteAsync()]");
         }
-        table.Remove(entity);
-        await _context.SaveChangesAsync();
+        await Task.Run(() => table.Remove(entity));
+    }
+
+    public virtual async Task<TEntity> CreateAsync(TEntity entity)
+    {
+        await table.AddAsync(entity);
+        return entity;
     }
 
     public IQueryable<TEntity> FindAll()
@@ -67,8 +73,8 @@ public abstract class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEnt
         return _context.Set<TEntity>().AsNoTracking();
     }
 
-    public async Task<IQueryable<TEntity>> FindByCondition(Expression<Func<TEntity, bool>> predicate)
+    public virtual async Task<IEnumerable<TEntity>> FindByCondition(Expression<Func<TEntity, bool>> predicate)
     { 
-        return await Task.Run(() => _context.Set<TEntity>().Where(predicate).AsNoTracking()); 
+        return await _context.Set<TEntity>().Where(predicate).AsNoTracking().ToListAsync(); 
     }
 }
