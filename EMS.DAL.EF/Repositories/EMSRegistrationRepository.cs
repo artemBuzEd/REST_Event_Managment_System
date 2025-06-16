@@ -27,4 +27,11 @@ public class EMSRegistrationRepository : EMSGenericRepository<Registration>, IEM
             .Where(r => r.Status.ToLower() == status.ToLower())
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Registration>> GetAllBySpecificEventAsync(int id)
+    {
+        return await _context.Registrations.AsNoTracking()
+            .Where(r => r.EventId == id)
+            .ToListAsync();
+    }
 }

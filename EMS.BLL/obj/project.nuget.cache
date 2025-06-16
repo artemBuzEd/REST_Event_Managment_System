@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "IAHruwfyktI=",
+  "success": true,
+  "projectFilePath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj",
+  "expectedPackageFiles": [
+    "/Users/artembuziak/.nuget/packages/fluentvalidation/12.0.0/fluentvalidation.12.0.0.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/2.1.0/microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512"
+  ],
+  "logs": []
+}

@@ -26,4 +26,11 @@ public class EMSEventRepository : EMSGenericRepository<Event>, IEMSEventReposito
             .Where(e => e.StartTime >= startDate && e.StartTime <= endDate)
             .ToListAsync();
     }
+    
+    public async Task<Event?> GetByIdWithVenueAndEventCategoryAndOrganizerAsync(int id)
+    {
+        return await _context.Events.Include(e => e.Venue).Include(e => e.EventCategory).Include(e => e.Organizer).AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+    }
+
+    
  }
