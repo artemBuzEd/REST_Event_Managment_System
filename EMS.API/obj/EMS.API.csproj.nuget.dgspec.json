@@ -125,7 +125,11 @@
         "frameworks": {
           "net8.0": {
             "targetAlias": "net8.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
+                "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -150,6 +154,10 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.1, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.4.0, )"
             }
           },
           "imports": [

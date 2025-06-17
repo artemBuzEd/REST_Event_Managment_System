@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "WPoQ1PSOzwo=",
+  "dgSpecHash": "QvzZa5iYE5A=",
   "success": true,
   "projectFilePath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,8 @@
     "/Users/artembuziak/.nuget/packages/fluentvalidation.aspnetcore/11.3.1/fluentvalidation.aspnetcore.11.3.1.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/fluentvalidation.dependencyinjectionextensions/11.11.0/fluentvalidation.dependencyinjectionextensions.11.11.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/mapster/7.4.0/mapster.7.4.0.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/mapster.core/1.2.1/mapster.core.1.2.1.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/microsoft.bcl.asyncinterfaces/6.0.0/microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/microsoft.codeanalysis.analyzers/3.3.3/microsoft.codeanalysis.analyzers.3.3.3.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/microsoft.codeanalysis.common/4.5.0/microsoft.codeanalysis.common.4.5.0.nupkg.sha512",

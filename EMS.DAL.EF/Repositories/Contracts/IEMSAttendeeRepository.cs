@@ -6,6 +6,6 @@ public interface IEMSAttendeeRepository : IEMSGenericRepository<Attendee>
 {
     Task<IEnumerable<Attendee?>> GetByFirstNameAsync(string firstName);
     Task<IEnumerable<Attendee?>> GetByLastNameAsync(string lastName);
-    Task<IEnumerable<Attendee?>> GetByEmailAsync(string email);
+    Task<Attendee?> GetByEmailAsync(string email);
     Task<Attendee?> GetByPhoneNumberAsync(string phoneNumber);
 }

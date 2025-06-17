@@ -8,12 +8,12 @@ public class AttendeeCreateRequestDTO_Validation : AbstractValidator<AttendeeCre
     public AttendeeCreateRequestDTO_Validation()
     {
         RuleFor(model => model.FirstName)
-            .NotNull().WithMessage("First name cannot be null");
+            .NotNull().NotEmpty().WithMessage("First name cannot be null");
         
         RuleFor(model => model.LastName)
-            .NotNull().WithMessage("Last name cannot be null");
+            .NotNull().NotEmpty().WithMessage("Last name cannot be null");
         
         RuleFor(model => model.Email)
-            .NotNull().WithMessage("Email cannot be null");
+            .NotNull().NotEmpty().WithMessage("Email cannot be null");
     }
 }

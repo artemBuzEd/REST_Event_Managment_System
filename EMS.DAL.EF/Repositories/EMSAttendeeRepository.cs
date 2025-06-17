@@ -27,11 +27,11 @@ public class EMSAttendeeRepository : EMSGenericRepository<Attendee>, IEMSAttende
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Attendee?>> GetByEmailAsync(string email)
+    public async Task<Attendee?> GetByEmailAsync(string email)
     {
         return await _context.Attendees.AsNoTracking()
             .Where(a => a.Email == email)
-            .ToListAsync();
+            .FirstOrDefaultAsync();
     }
 
     public async Task<Attendee?> GetByPhoneNumberAsync(string phoneNumber)
