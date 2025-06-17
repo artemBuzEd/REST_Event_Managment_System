@@ -34,4 +34,11 @@ public class EMSRegistrationRepository : EMSGenericRepository<Registration>, IEM
             .Where(r => r.EventId == id)
             .ToListAsync();
     }
+
+    public async Task<Registration?> GetAllByAttendeeAndEventId(int attendeeId, int eventId)
+    {
+        return await _context.Registrations.AsNoTracking()
+            .Where(r => r.AttendeeId == attendeeId && r.EventId == eventId)
+            .FirstOrDefaultAsync();
+    }
 }

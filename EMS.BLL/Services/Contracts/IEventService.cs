@@ -10,7 +10,7 @@ public interface IEventService
     Task<EventMiniResponse> GetByIdAsync(int id);
     Task<IEnumerable<EventMiniResponse>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
     Task<EventFullResponseDTO> GetDetailedEventByIdAsync(int id);
-    Task<EventCreateRequestDTO> CreateAsync(EventCreateRequestDTO dto);
-    Task<EventUpdateRequestDTO> UpdateAsync(int id, EventUpdateRequestDTO dto);
-    Task<bool> DeleteAsync(int id);
+    Task<EventCreateRequestDTO> CreateAsync(EventCreateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<EventUpdateRequestDTO> UpdateAsync(int id, EventUpdateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

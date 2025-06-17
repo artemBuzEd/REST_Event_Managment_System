@@ -32,5 +32,8 @@ public class EMSEventRepository : EMSGenericRepository<Event>, IEMSEventReposito
         return await _context.Events.Include(e => e.Venue).Include(e => e.EventCategory).Include(e => e.Organizer).AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    
+    public async Task<IEnumerable<Event?>> GetAllByOrganizerIdAsync(int id)
+    {
+        return await _context.Events.AsNoTracking().Where(e => e.OrganizerId == id).ToListAsync();
+    }
  }

@@ -8,7 +8,7 @@ public interface IAttendeeService
 {
     Task<IEnumerable<AttendeeFullResponseDTO>> GetAllAsync();
     Task<AttendeeFullResponseDTO> GetByIdAsync(int id);
-    Task<AttendeeFullResponseDTO> CreateAsync(AttendeeCreateRequestDTO dto, CancellationToken cancellationToken);
-    Task<AttendeeFullResponseDTO> UpdateAsync(int id,AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken);
-    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken);
+    Task<AttendeeFullResponseDTO> CreateAsync(AttendeeCreateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<AttendeeFullResponseDTO> UpdateAsync(int id,AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

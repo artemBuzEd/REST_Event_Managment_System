@@ -37,10 +37,10 @@ public class EMSVenueRepository : EMSGenericRepository<Venue>, IEMSVenueReposito
             .ToListAsync();
     }
 
-    public async Task<IEnumerable<Venue?>> GetByCapacityAsync(int capacity)
+    public async Task<IEnumerable<Venue?>> GetByCapacityRangeAsync(int startCapacity, int endCapacity)
     {
         return await _context.Venues.AsNoTracking()
-            .Where(v => v.Capacity == capacity)
+            .Where(v => v.Capacity >= startCapacity && v.Capacity <= endCapacity)
             .ToListAsync();
     }
 }

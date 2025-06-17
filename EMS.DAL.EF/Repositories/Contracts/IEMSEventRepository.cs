@@ -7,4 +7,6 @@ public interface IEMSEventRepository : IEMSGenericRepository<Event>
     Task<IEnumerable<Event?>> GetByNameAsync(string name);
     Task<IEnumerable<Event?>> GetByDateRangeAsync(DateTime startDate, DateTime endDate);
     Task<Event?> GetByIdWithVenueAndEventCategoryAndOrganizerAsync(int id);
+    
+    Task<IEnumerable<Event?>> GetAllByOrganizerIdAsync(int id);
 }

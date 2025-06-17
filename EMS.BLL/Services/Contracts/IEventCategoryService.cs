@@ -7,7 +7,8 @@ public interface IEventCategoryService
 {
     Task<IEnumerable<EventCategoryFullResponseDTO>> GetAllFullAsync();
     Task<IEnumerable<EventCategoryMiniResponseDTO>> GetAllMiniAsync();
-    Task<EventCategoryFullResponseDTO> GetByIdAsync();
-    Task<EventCategoryFullResponseDTO> CreateAsync(int id,EventCategoryCreateRequestDTO dto);
-    Task<bool> DeleteAsync(int id);
+    Task<EventCategoryFullResponseDTO> GetByIdAsync(int id);
+    Task<EventCategoryFullResponseDTO> GetByNameAsync(string name);
+    Task<EventCategoryFullResponseDTO> CreateAsync(EventCategoryCreateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

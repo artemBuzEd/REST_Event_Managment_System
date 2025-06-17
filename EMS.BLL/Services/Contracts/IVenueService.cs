@@ -9,7 +9,7 @@ public interface IVenueService
     Task<VenueFullResponseDTO> GetByIdAsync(int id);
     Task<IEnumerable<VenueFullResponseDTO>> GetByCityAsync(string city);
     Task<IEnumerable<VenueFullResponseDTO>> GetAllByCapacityRangeAsync(int startCapacity, int endCapacity);
-    Task<VenueFullResponseDTO> CreateAsync();
-    Task<VenueFullResponseDTO> UpdateAsync(int id,VenueUpdateRequestDTO dto);
-    Task<bool> DeleteAsync(int id);
+    Task<VenueFullResponseDTO> CreateAsync(VenueCreateRequestDTO request, CancellationToken cancellationToken = default);
+    Task<VenueFullResponseDTO> UpdateAsync(int id,VenueUpdateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

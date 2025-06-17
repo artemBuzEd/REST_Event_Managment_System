@@ -8,6 +8,7 @@ public interface IRegistrationService
     Task<RegistrationFullResponseDTO> GetByIdAsync(int id);
     Task<IEnumerable<RegistrationFullResponseDTO>> GetByRegistrationDateAsync(DateTime registrationDate);
     Task<IEnumerable<RegistrationFullResponseDTO>> GetAllRegistrationsOnSpecificEventIdAsync(int id);
-    Task<RegistrationFullResponseDTO> CreateAsync(RegistrationCreateRequestDTO dto);
-    Task<bool> DeleteAsync(int id);
+    Task<RegistrationFullResponseDTO> CreateAsync(RegistrationCreateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<RegistrationFullResponseDTO> UpdateAsync(int id, RegistrationUpdateRequestDTO dto, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

@@ -38,13 +38,14 @@ public class AttendeeService : IAttendeeService
         {
             throw new ValidationException("Attendee with same email is already exists");
         }
-        var attendee = dto.Adapt<Attendee>();
+        var attendeeToCreate = dto.Adapt<Attendee>();
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            var result = await _unitOfWork.Attendees.AddAsync(attendee);
+            var result = await _unitOfWork.Attendees.AddAsync(attendeeToCreate);
             await _unitOfWork.CompleteAsync(cancellationToken);
-            return attendee.Adapt<AttendeeFullResponseDTO>();
+            await _unitOfWork.CommitTransactionAsync(cancellationToken);
+            return attendeeToCreate.Adapt<AttendeeFullResponseDTO>();
         }
         catch (Exception e)
         {
@@ -53,16 +54,15 @@ public class AttendeeService : IAttendeeService
         }
     }
 
-    public async Task<AttendeeFullResponseDTO> UpdateAsync(int id, AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken)
+    public async Task<AttendeeFullResponseDTO> UpdateAsync(int id, AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken = default)
     {
-        await isExistsAsync(id);
         try
         {
-            var attendeeToChange = dto.Adapt<Attendee>();
+            var attendeeToChange = await isExistsAsync(id);
+            dto.Adapt(attendeeToChange);
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
             await _unitOfWork.Attendees.UpdateAsync(attendeeToChange);
             await _unitOfWork.CompleteAsync(cancellationToken);
-
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
             return attendeeToChange.Adapt<AttendeeFullResponseDTO>();
         }
@@ -73,7 +73,7 @@ public class AttendeeService : IAttendeeService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         try
         {
