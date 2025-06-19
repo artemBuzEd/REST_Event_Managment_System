@@ -37,7 +37,7 @@ public class EventCategoryService : IEventCategoryService
 
     public async Task<EventCategoryFullResponseDTO> GetByNameAsync(string name)
     {
-        var eventCategory = _unitOfWork.EventCategories.GetByNameAsync(name);
+        var eventCategory = await _unitOfWork.EventCategories.GetByNameAsync(name);
         if (eventCategory == null)
         {
             throw new ApplicationException($"Event category with name {name} does not exist. Or some error occured.");
@@ -63,15 +63,14 @@ public class EventCategoryService : IEventCategoryService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
-        var eventCategoryToDelete = isExistsAsync(id);
+        var eventCategoryToDelete = await isExistsAsync(id);
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            await _unitOfWork.EventCategories.DeleteByIdAsync(id);
+            await _unitOfWork.EventCategories.DeleteAsync(eventCategoryToDelete);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return true;
         }
         catch (Exception e)
         {

@@ -18,6 +18,18 @@ public class OrganizerService : IOrganizerService
         _unitOfWork = unitOfWork;
     }
 
+    public async Task<IEnumerable<OrganizerFullResponseDTO>> GetAllAsync()
+    {
+        var organizers = await _unitOfWork.Organizers.GetAllAsync();
+        return organizers.Adapt<IEnumerable<OrganizerFullResponseDTO>>();
+    }
+
+    public async Task<OrganizerFullResponseDTO> GetByIdAsync(int id)
+    {
+        var organizer = await isExists(id);
+        return organizer.Adapt<OrganizerFullResponseDTO>();
+    }
+    
     public async Task<OrganizerFullResponseDTO> CreateAsync(OrganizerCreateRequestDTO dto, CancellationToken cancellationToken = default)
     {
         var isExists = await _unitOfWork.Organizers.GetByEmailAsync(dto.Email);
@@ -29,7 +41,7 @@ public class OrganizerService : IOrganizerService
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            var result = await _unitOfWork.Organizers.AddAsync(organizerToCreate);
+            await _unitOfWork.Organizers.AddAsync(organizerToCreate);
             await _unitOfWork.CompleteAsync(cancellationToken);
             return organizerToCreate.Adapt<OrganizerFullResponseDTO>();
         }
@@ -59,7 +71,7 @@ public class OrganizerService : IOrganizerService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -68,7 +80,6 @@ public class OrganizerService : IOrganizerService
             await _unitOfWork.Organizers.DeleteAsync(organizerToDelete);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return true;
         }
         catch (Exception e)
         {

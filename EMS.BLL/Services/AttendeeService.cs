@@ -1,4 +1,4 @@
-using Bogus;
+using System.ComponentModel.DataAnnotations;
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Request.Attendee;
 using EMS.BLL.DTOs.Responce;
@@ -42,7 +42,7 @@ public class AttendeeService : IAttendeeService
         try
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            var result = await _unitOfWork.Attendees.AddAsync(attendeeToCreate);
+            _unitOfWork.Attendees.AddAsync(attendeeToCreate);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
             return attendeeToCreate.Adapt<AttendeeFullResponseDTO>();
@@ -73,7 +73,7 @@ public class AttendeeService : IAttendeeService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -82,7 +82,6 @@ public class AttendeeService : IAttendeeService
             await _unitOfWork.Attendees.DeleteAsync(attendeeToDelete);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return true;
         }
         catch (Exception e)
         {

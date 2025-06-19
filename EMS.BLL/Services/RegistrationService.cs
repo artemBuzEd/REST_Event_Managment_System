@@ -1,5 +1,6 @@
 using EMS.BLL.DTOs.Request.Registration;
 using EMS.BLL.DTOs.Responce;
+using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
 using EMS.DAL.EF.UOW.Contract;
@@ -58,7 +59,7 @@ public class RegistrationService : IRegistrationService
         }
     }
     
-    public async Task<RegistrationFullResponseDTO> UpdateAsync(int id,RegistrationUpdateRequestDTO dto, CancellationToken cancellationToken = default)
+    public async Task<RegistrationFullResponseDTO> UpdateAsync(int id, RegistrationUpdateRequestDTO dto, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -77,7 +78,7 @@ public class RegistrationService : IRegistrationService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -86,7 +87,6 @@ public class RegistrationService : IRegistrationService
             await _unitOfWork.Registrations.DeleteAsync(registrationToDelete);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return true;
         }
         catch (Exception e)
         {
@@ -99,7 +99,7 @@ public class RegistrationService : IRegistrationService
         var registration = await _unitOfWork.Registrations.GetByIdAsync(id);
         if (registration == null)
         {
-            throw new ApplicationException($"Registration with id: {id} not found");
+            throw new NotFoundException($"Registration with id: {id} not found");
         }
         return registration;
     }

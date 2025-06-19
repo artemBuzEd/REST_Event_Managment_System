@@ -1,5 +1,6 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Responce;
+using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
 using EMS.DAL.EF.UOW.Contract;
@@ -16,31 +17,41 @@ public class EventService : IEventService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IEnumerable<EventMiniResponse>> GetAllAsync()
+    public async Task<IEnumerable<EventMiniResponseDTO>> GetAllAsync()
     {
         var events = await _unitOfWork.Events.GetAllAsync();
-        return events.Adapt<IEnumerable<EventMiniResponse>>();
+        return events.Adapt<IEnumerable<EventMiniResponseDTO>>();
     }
 
-    public async Task<EventMiniResponse> GetByIdAsync(int id)
+    public async Task<EventMiniResponseDTO> GetByIdAsync(int id)
     {
         var _event = await isExists(id);
-        return _event.Adapt<EventMiniResponse>();
+        return _event.Adapt<EventMiniResponseDTO>();
     }
 
-    public async Task<IEnumerable<EventMiniResponse>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
+    public async Task<IEnumerable<EventMiniResponseDTO>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
     {
         var events = await _unitOfWork.Events.GetByDateRangeAsync(startDate, endDate);
-        return events.Adapt<IEnumerable<EventMiniResponse>>();
+        return events.Adapt<IEnumerable<EventMiniResponseDTO>>();
     }
 
     public async Task<EventFullResponseDTO> GetDetailedEventByIdAsync(int id)
     {
-        var _event = await isExists(id);
+        var _event = await _unitOfWork.Events.GetByIdWithVenueAndEventCategoryAndOrganizerAsync(id);
+        if (_event == null)
+        {
+            throw new NotFoundException($"Event not found with this id: {id}");
+        }
         return _event.Adapt<EventFullResponseDTO>();
     }
 
-    public async Task<EventCreateRequestDTO> CreateAsync(EventCreateRequestDTO dto, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<EventFullResponseDTO>> GetDetailedEventSpecificOrganizerIdAsync(int organizerId)
+    {
+        var events = await _unitOfWork.Events.GetAllByOrganizerIdAsync(organizerId);
+        return events.Adapt<IEnumerable<EventFullResponseDTO>>();
+    }
+
+    public async Task<EventMiniResponseDTO> CreateAsync(EventCreateRequestDTO dto, CancellationToken cancellationToken = default)
     {
         var eventToCreate = dto.Adapt<Event>();
         try
@@ -49,7 +60,7 @@ public class EventService : IEventService
             await _unitOfWork.Events.AddAsync(eventToCreate);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return dto.Adapt<EventCreateRequestDTO>();
+            return dto.Adapt<EventMiniResponseDTO>();
         }
         catch (Exception e)
         {
@@ -58,7 +69,7 @@ public class EventService : IEventService
         }
     }
 
-    public async Task<EventUpdateRequestDTO> UpdateAsync(int id, EventUpdateRequestDTO dto,
+    public async Task<EventMiniResponseDTO> UpdateAsync(int id, EventUpdateRequestDTO dto,
         CancellationToken cancellationToken = default)
     {
         try
@@ -69,7 +80,7 @@ public class EventService : IEventService
             await _unitOfWork.Events.UpdateAsync(eventToChange);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return dto.Adapt<EventUpdateRequestDTO>();
+            return dto.Adapt<EventMiniResponseDTO>();
         }
         catch (Exception e)
         {
@@ -78,7 +89,7 @@ public class EventService : IEventService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -87,7 +98,6 @@ public class EventService : IEventService
             await _unitOfWork.Events.DeleteAsync(eventToDelete);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return true;
         }
         catch (Exception e)
         {
@@ -100,7 +110,7 @@ public class EventService : IEventService
         var _event = await _unitOfWork.Events.GetByIdAsync(id);
         if (_event == null)
         {
-            throw new ApplicationException($"Event with id {id} not found");
+            throw new NotFoundException($"Event with id {id} not found");
         }
 
         return _event;

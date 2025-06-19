@@ -1,5 +1,7 @@
+using System.ComponentModel.DataAnnotations;
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Responce;
+using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
 using EMS.DAL.EF.UOW.Contract;
@@ -45,7 +47,7 @@ public class VenueService : IVenueService
         var isExist = await _unitOfWork.Venues.GetByAddressAsync(dto.Address);
         if (isExist != null)
         {
-            throw new ApplicationException("Venue with same address already exists");
+            throw new ValidationException("Venue with same address already exists");
         }
         var venueToCreate = dto.Adapt<Venue>();
         try
@@ -82,7 +84,7 @@ public class VenueService : IVenueService
         }
     }
 
-    public async Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -91,7 +93,6 @@ public class VenueService : IVenueService
             await _unitOfWork.Venues.DeleteAsync(venue);
             await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return true;
         }
         catch (Exception e)
         {
@@ -104,7 +105,7 @@ public class VenueService : IVenueService
         var venue = await _unitOfWork.Venues.GetByIdAsync(id);
         if (venue == null)
         {
-            throw new ApplicationException($"Venue with id {id} does not exist.");
+            throw new NotFoundException($"Venue with id {id} does not exist.");
         }
         return venue;
     } 

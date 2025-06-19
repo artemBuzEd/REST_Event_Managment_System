@@ -10,5 +10,5 @@ public interface IEventCategoryService
     Task<EventCategoryFullResponseDTO> GetByIdAsync(int id);
     Task<EventCategoryFullResponseDTO> GetByNameAsync(string name);
     Task<EventCategoryFullResponseDTO> CreateAsync(EventCategoryCreateRequestDTO dto, CancellationToken cancellationToken = default);
-    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

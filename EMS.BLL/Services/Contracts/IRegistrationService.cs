@@ -10,5 +10,5 @@ public interface IRegistrationService
     Task<IEnumerable<RegistrationFullResponseDTO>> GetAllRegistrationsOnSpecificEventIdAsync(int id);
     Task<RegistrationFullResponseDTO> CreateAsync(RegistrationCreateRequestDTO dto, CancellationToken cancellationToken = default);
     Task<RegistrationFullResponseDTO> UpdateAsync(int id, RegistrationUpdateRequestDTO dto, CancellationToken cancellationToken = default);
-    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

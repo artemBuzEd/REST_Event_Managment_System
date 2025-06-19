@@ -10,5 +10,5 @@ public interface IAttendeeService
     Task<AttendeeFullResponseDTO> GetByIdAsync(int id);
     Task<AttendeeFullResponseDTO> CreateAsync(AttendeeCreateRequestDTO dto, CancellationToken cancellationToken = default);
     Task<AttendeeFullResponseDTO> UpdateAsync(int id,AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken = default);
-    Task<bool> DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task DeleteAsync(int id, CancellationToken cancellationToken = default);
 }

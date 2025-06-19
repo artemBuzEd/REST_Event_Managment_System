@@ -1,6 +1,6 @@
 namespace EMS.BLL.DTOs.Responce;
 
-public class EventMiniResponse
+public class EventMiniResponseDTO
 {
     public int Id { get; set; }
     public string Name { get; set; } = string.Empty;
