@@ -3,6 +3,8 @@ using EMS.BLL.DTOs.Responce;
 using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.UOW.Contract;
 using Mapster;
 
@@ -104,6 +106,15 @@ public class EventService : IEventService
             await _unitOfWork.RollbackTransactionAsync(cancellationToken);
             throw new ApplicationException("Error deleting event", e);
         }
+    }
+
+    public async Task<PagedList<EventMiniResponseDTO>> GetAllPaginatedAsync(EventParameters parameters)
+    {
+        var pagedEvents = await _unitOfWork.Events.GetAllPaginatedAsync(parameters, new SortHelper<Event>());
+        
+        var mapped = pagedEvents.Select(a => a.Adapt<EventMiniResponseDTO>()).ToList();
+        
+        return new PagedList<EventMiniResponseDTO>(mapped,pagedEvents.TotalCount, pagedEvents.CurrentPage, pagedEvents.PageSize);
     }
     private async Task<Event> isExists(int id)
     {

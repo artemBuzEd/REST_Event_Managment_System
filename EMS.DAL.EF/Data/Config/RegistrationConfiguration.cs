@@ -20,12 +20,12 @@ public class RegistrationConfiguration : IEntityTypeConfiguration<Registration>
         builder.HasOne(r => r.Event)
             .WithMany(e => e.Registrations)
             .HasForeignKey(r => r.EventId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasOne(r => r.Attendee)
             .WithMany(a => a.Registrations)
             .HasForeignKey(r => r.AttendeeId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Restrict);
         
         builder.HasIndex(r => new {r.EventId, r.AttendeeId}).IsUnique();
     }

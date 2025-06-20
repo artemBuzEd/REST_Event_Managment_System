@@ -4,6 +4,8 @@ using EMS.BLL.DTOs.Responce;
 using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.UOW.Contract;
 using Mapster;
 
@@ -87,7 +89,15 @@ public class OrganizerService : IOrganizerService
             throw new ApplicationException("There was an error deleting the organizer", e);
         }
     }
-
+    
+    public async Task<PagedList<OrganizerFullResponseDTO>> GetAllPaginatedAsync(OrganizerParameters parameters)
+    {
+        var pagedOrganizer = await _unitOfWork.Organizers.GetAllPaginatedAsync(parameters, new SortHelper<Organizer>());
+        
+        var mapped = pagedOrganizer.Select(a => a.Adapt<OrganizerFullResponseDTO>()).ToList();
+        
+        return new PagedList<OrganizerFullResponseDTO>(mapped, pagedOrganizer.TotalCount, pagedOrganizer.CurrentPage, pagedOrganizer.PageSize);
+    }
     private async Task<Organizer> isExists(int id)
     {
         var organizer = await _unitOfWork.Organizers.GetByIdAsync(id);

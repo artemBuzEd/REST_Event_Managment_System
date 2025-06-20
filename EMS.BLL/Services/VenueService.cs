@@ -4,6 +4,8 @@ using EMS.BLL.DTOs.Responce;
 using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.UOW.Contract;
 using Mapster;
 
@@ -99,6 +101,15 @@ public class VenueService : IVenueService
             await _unitOfWork.RollbackTransactionAsync(cancellationToken);
             throw new ApplicationException("Error deleting venue", e);
         }
+    }
+
+    public async Task<PagedList<VenueFullResponseDTO>> GetAllPaginatedAsync(VenueParameters parameters)
+    {
+        var pagedVenues = await _unitOfWork.Venues.GetAllPaginatedAsync(parameters, new SortHelper<Venue>());
+        
+        var mapped = pagedVenues.Select(a => a.Adapt<VenueFullResponseDTO>()).ToList();
+        
+        return new PagedList<VenueFullResponseDTO>(mapped, pagedVenues.TotalCount, pagedVenues.CurrentPage, pagedVenues.PageSize);
     }
     private async Task<Venue> isExistsAsync(int id)
     {

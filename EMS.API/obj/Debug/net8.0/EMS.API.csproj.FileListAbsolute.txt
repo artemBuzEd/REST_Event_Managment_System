@@ -119,3 +119,4 @@
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Mapster.Core.dll
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/EMS.BLL.dll
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/EMS.BLL.pdb
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/System.Linq.Dynamic.Core.dll

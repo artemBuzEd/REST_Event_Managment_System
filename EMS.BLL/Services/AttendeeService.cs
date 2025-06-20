@@ -5,8 +5,11 @@ using EMS.BLL.DTOs.Responce;
 using EMS.BLL.Exceptions;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.UOW.Contract;
 using Mapster;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace EMS.BLL.Services;
 
@@ -91,6 +94,14 @@ public class AttendeeService : IAttendeeService
         
     }
 
+    public async Task<PagedList<AttendeeFullResponseDTO>> GetAllPaginatedAsync(AttendeeParameters parameters)
+    {
+        var pagedAttendees = await _unitOfWork.Attendees.GetAllPaginatedAsync(parameters, new SortHelper<Attendee>());
+        
+        var mapped = pagedAttendees.Select(a => a.Adapt<AttendeeFullResponseDTO>()).ToList();
+        
+        return new PagedList<AttendeeFullResponseDTO>(mapped, pagedAttendees.TotalCount, pagedAttendees.CurrentPage, pagedAttendees.PageSize);
+    }
     private async Task<Attendee> isExistsAsync(int id)
     {
         var attendee = await _unitOfWork.Attendees.GetByIdAsync(id);

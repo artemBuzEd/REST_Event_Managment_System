@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EMS.BLL")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+93cd2ad432c5d45804aa7ce823655e5f9762dd47")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ec92011348042b45a6c24467fa573ab6c20dd6d5")]
 [assembly: System.Reflection.AssemblyProductAttribute("EMS.BLL")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EMS.BLL")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

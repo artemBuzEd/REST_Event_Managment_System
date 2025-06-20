@@ -1,5 +1,7 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.Services.Contracts;
+using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
@@ -23,6 +25,17 @@ public class OrganizerController : ControllerBase
         return Ok(organizers);
     }
 
+    [HttpGet("paginated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetPaginated([FromQuery] OrganizerParameters parameters)
+    {
+        var result = await _organizerService.GetAllPaginatedAsync(parameters);
+        return Ok(result);
+    }
+    
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

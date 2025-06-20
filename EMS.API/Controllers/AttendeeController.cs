@@ -1,6 +1,7 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Request.Attendee;
 using EMS.BLL.Services.Contracts;
+using EMS.DAL.EF.Entities.HelpModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
@@ -16,6 +17,17 @@ public class AttendeeController : ControllerBase
         _attendeeService = attendeeService;
     }
 
+    [HttpGet("paginated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetPaginated([FromQuery] AttendeeParameters parameters)
+    {
+        var result = await _attendeeService.GetAllPaginatedAsync(parameters);
+        return Ok(result);
+    }
+    
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -66,4 +78,6 @@ public class AttendeeController : ControllerBase
         await _attendeeService.DeleteAsync(id, cancellationToken);
         return NoContent();
     }
+    
+    
 }

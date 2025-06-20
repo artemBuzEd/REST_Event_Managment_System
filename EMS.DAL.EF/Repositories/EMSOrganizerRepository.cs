@@ -1,5 +1,7 @@
 using EMS.DAL.EF.Data;
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.Repositories.Contracts;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,5 +32,22 @@ public class EMSOrganizerRepository : EMSGenericRepository<Organizer>, IEMSOrgan
         return await _context.Organizers.AsNoTracking()
             .FirstOrDefaultAsync(o => o.PhoneNumber == phoneNumber);
     }
-    
+
+    public async Task<PagedList<Organizer>> GetAllPaginatedAsync(OrganizerParameters parameters, ISortHelper<Organizer> sortHelper)
+    {
+        var query = table.AsQueryable();
+        
+        if(!string.IsNullOrWhiteSpace(parameters.Name))
+            query = query.Where(e => e.Name.ToLower().Contains(parameters.Name.ToLower()));
+        
+        if(!string.IsNullOrWhiteSpace(parameters.Email))
+            query = query.Where(e => e.Email.ToLower().Contains(parameters.Email.ToLower()));
+        
+        if(!string.IsNullOrWhiteSpace(parameters.PhoneNumber))
+            query = query.Where(e => e.PhoneNumber.Contains(parameters.PhoneNumber));
+        
+        query = sortHelper.UseSort(query, parameters.OrderBy);
+        
+        return await PagedList<Organizer>.ToPagedListAsync(query.AsNoTracking(), parameters.PageNumber, parameters.PageSize);
+    }
 }

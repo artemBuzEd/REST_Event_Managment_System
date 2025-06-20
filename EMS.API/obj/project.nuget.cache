@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "QvzZa5iYE5A=",
+  "dgSpecHash": "e/ZzEiC9ztw=",
   "success": true,
   "projectFilePath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj",
   "expectedPackageFiles": [
@@ -51,6 +51,7 @@
     "/Users/artembuziak/.nuget/packages/system.composition.runtime/6.0.0/system.composition.runtime.6.0.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/system.composition.typedparts/6.0.0/system.composition.typedparts.6.0.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/system.io.pipelines/6.0.3/system.io.pipelines.6.0.3.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/system.linq.dynamic.core/1.6.6/system.linq.dynamic.core.1.6.6.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/system.reflection.metadata/6.0.1/system.reflection.metadata.6.0.1.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/system.runtime.compilerservices.unsafe/6.0.0/system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/system.text.encoding.codepages/6.0.0/system.text.encoding.codepages.6.0.0.nupkg.sha512",

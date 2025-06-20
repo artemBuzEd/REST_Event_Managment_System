@@ -1,5 +1,7 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Responce;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 
 namespace EMS.BLL.Services.Contracts;
 
@@ -12,4 +14,5 @@ public interface IVenueService
     Task<VenueFullResponseDTO> CreateAsync(VenueCreateRequestDTO request, CancellationToken cancellationToken = default);
     Task<VenueFullResponseDTO> UpdateAsync(int id,VenueUpdateRequestDTO dto, CancellationToken cancellationToken = default);
     Task DeleteAsync(int id, CancellationToken cancellationToken = default);
+    Task<PagedList<VenueFullResponseDTO>> GetAllPaginatedAsync(VenueParameters parameters);
 }

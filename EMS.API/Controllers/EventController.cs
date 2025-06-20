@@ -1,5 +1,6 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.Services.Contracts;
+using EMS.DAL.EF.Entities.HelpModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
@@ -56,6 +57,17 @@ public class EventController : ControllerBase
     {
         var events = await _eventService.GetDetailedEventByIdAsync(id);
         return Ok(events);
+    }
+
+    [HttpGet("paginated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetPaginated([FromQuery] EventParameters parameters)
+    {
+        var result = await _eventService.GetAllPaginatedAsync(parameters);
+        return Ok(result);
     }
 
     [HttpGet("detailed/organizer/{id:int}")]

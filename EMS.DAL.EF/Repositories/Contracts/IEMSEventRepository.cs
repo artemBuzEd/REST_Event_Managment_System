@@ -1,4 +1,6 @@
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Entities.HelpModels;
+using EMS.DAL.EF.Helpers;
 
 namespace EMS.DAL.EF.Repositories.Contracts;
 
@@ -9,4 +11,5 @@ public interface IEMSEventRepository : IEMSGenericRepository<Event>
     Task<Event?> GetByIdWithVenueAndEventCategoryAndOrganizerAsync(int id);
     
     Task<IEnumerable<Event?>> GetAllByOrganizerIdAsync(int id);
-}
+    Task<PagedList<Event>> GetAllPaginatedAsync(EventParameters parameters, ISortHelper<Event> sortHelper);
+ }

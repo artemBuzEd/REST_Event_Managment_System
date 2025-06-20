@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "US+RnmtL+7Y=",
+  "dgSpecHash": "6tua2RwuMjs=",
   "success": true,
   "projectFilePath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj",
   "expectedPackageFiles": [
@@ -24,7 +24,8 @@
     "/Users/artembuziak/.nuget/packages/microsoft.extensions.options/8.0.2/microsoft.extensions.options.8.0.2.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/microsoft.extensions.primitives/8.0.0/microsoft.extensions.primitives.8.0.0.nupkg.sha512",
     "/Users/artembuziak/.nuget/packages/mysqlconnector/2.3.5/mysqlconnector.2.3.5.nupkg.sha512",
-    "/Users/artembuziak/.nuget/packages/pomelo.entityframeworkcore.mysql/8.0.3/pomelo.entityframeworkcore.mysql.8.0.3.nupkg.sha512"
+    "/Users/artembuziak/.nuget/packages/pomelo.entityframeworkcore.mysql/8.0.3/pomelo.entityframeworkcore.mysql.8.0.3.nupkg.sha512",
+    "/Users/artembuziak/.nuget/packages/system.linq.dynamic.core/1.6.6/system.linq.dynamic.core.1.6.6.nupkg.sha512"
   ],
   "logs": []
 }

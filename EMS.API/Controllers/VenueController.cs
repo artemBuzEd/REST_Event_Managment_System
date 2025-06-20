@@ -1,5 +1,6 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.Services.Contracts;
+using EMS.DAL.EF.Entities.HelpModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
@@ -25,6 +26,17 @@ public class VenueController : ControllerBase
         return Ok(venues);
     }
 
+    [HttpGet("paginated")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> GetPaginated([FromQuery] VenueParameters parameters)
+    {
+        var result = await _venueService.GetAllPaginatedAsync(parameters);
+        return Ok(result);
+    }
+    
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
