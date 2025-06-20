@@ -112,3 +112,10 @@
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/Debug/net8.0/ref/EMS.API.dll
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/Debug/net8.0/EMS.API.sourcelink.json
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Bogus.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/FluentValidation.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/FluentValidation.AspNetCore.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/FluentValidation.DependencyInjectionExtensions.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Mapster.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Mapster.Core.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/EMS.BLL.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/EMS.BLL.pdb

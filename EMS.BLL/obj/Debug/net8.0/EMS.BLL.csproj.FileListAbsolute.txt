@@ -11,3 +11,6 @@
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/obj/Debug/net8.0/refint/EMS.BLL.dll
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/obj/Debug/net8.0/EMS.BLL.pdb
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/obj/Debug/net8.0/ref/EMS.BLL.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/bin/Debug/net8.0/EMS.DAL.EF.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/bin/Debug/net8.0/EMS.DAL.EF.pdb
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/obj/Debug/net8.0/EMS.BLL.csproj.Up2Date

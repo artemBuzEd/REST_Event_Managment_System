@@ -8,7 +8,7 @@ public class EventFullResponseDTO
     public DateTime StartTime { get; set; } = DateTime.Now;
     public DateTime EndTime { get; set; } = DateTime.Now;
     
-    public EventCategoryMiniResponseDTO Category { get; set; } = new();
+    public EventCategoryFullResponseDTO EventCategory { get; set; } = new();
     public VenueFullResponseDTO Venue { get; set; } = new();
     public OrganizerFullResponseDTO Organizer { get; set; } = new();
 }
