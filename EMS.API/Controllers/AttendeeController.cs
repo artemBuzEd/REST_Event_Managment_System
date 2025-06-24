@@ -39,7 +39,7 @@ public class AttendeeController : ControllerBase
         return Ok(attendees);
     }
 
-    [HttpGet("{id:int}")]
+    [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

@@ -39,7 +39,7 @@ public class OrganizerService : IOrganizerService
             throw new ValidationException("Organizer with the same e-mail already exists");
         
         var organizerToCreate = dto.Adapt<Organizer>();
-        organizerToCreate.Email = dto.Email;
+        organizerToCreate.UserName = dto.Email;
         
         var(result, created) = await _unitOfWork.Organizers.CreateAsync(organizerToCreate, dto.Password);
         

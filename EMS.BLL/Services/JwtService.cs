@@ -71,18 +71,17 @@ public class JwtService : IJwtService
         if(await _userManager.FindByNameAsync(userName) != null || await _userManager.FindByEmailAsync(email) != null)
             throw new ValidationException("User creation failed. User exists!");
 
-        var user = new Attendee
+        var user = new Organizer()
         {
             UserName = userName,
             Email = email,
             EmailConfirmed = true,
-            FirstName = firstName,
-            LastName = lastName
+            Name = firstName
         };
         
         var result = await _userManager.CreateAsync(user, password);
         if(result.Succeeded)
-            await _userManager.AddToRoleAsync(user, "Attendee");
+            await _userManager.AddToRoleAsync(user, "Organizer");
         
         return result.Succeeded;
     }

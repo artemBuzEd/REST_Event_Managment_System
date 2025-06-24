@@ -35,14 +35,14 @@ public class EventCategoryService : IEventCategoryService
         return eventCategory.Adapt<EventCategoryFullResponseDTO>();
     }
 
-    public async Task<EventCategoryFullResponseDTO> GetByNameAsync(string name)
+    public async Task<IEnumerable<EventCategoryFullResponseDTO>> GetByNameAsync(string name)
     {
         var eventCategory = await _unitOfWork.EventCategories.GetByNameAsync(name);
         if (eventCategory == null)
         {
             throw new ApplicationException($"Event category with name {name} does not exist. Or some error occured.");
         }
-        return eventCategory.Adapt<EventCategoryFullResponseDTO>();
+        return eventCategory.Adapt<IEnumerable<EventCategoryFullResponseDTO>>();
     }
 
     public async Task<EventCategoryFullResponseDTO> CreateAsync(EventCategoryCreateRequestDTO dto, CancellationToken cancellationToken = default)
@@ -70,6 +70,7 @@ public class EventCategoryService : IEventCategoryService
         {
             await _unitOfWork.BeginTransactionAsync(cancellationToken);
             await _unitOfWork.EventCategories.DeleteAsync(eventCategoryToDelete);
+            await _unitOfWork.CompleteAsync(cancellationToken);
             await _unitOfWork.CommitTransactionAsync(cancellationToken);
         }
         catch (Exception e)

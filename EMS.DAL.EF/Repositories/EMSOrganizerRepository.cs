@@ -61,7 +61,7 @@ public class EMSOrganizerRepository : EMSGenericRepository<Organizer>, IEMSOrgan
 
     public async Task<Organizer?> GetByIdAsync(string id)
     {
-        return await GetAllAsync().FirstOrDefaultAsync(o => o.Id == id);
+        return await _context.Users.OfType<Organizer>().FirstOrDefaultAsync(o => o.Id == id);
     }
 
     public async Task<(IdentityResult, Organizer)> CreateAsync(Organizer organizer, string password)

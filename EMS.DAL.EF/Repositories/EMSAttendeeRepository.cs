@@ -72,7 +72,7 @@ public class EMSAttendeeRepository : EMSGenericRepository<Attendee>, IEMSAttende
 
     public async Task<Attendee?> GetByIdAsync(string id)
     {
-        return await GetAllAsync().FirstOrDefaultAsync(a => a.Id == id);
+        return await _context.Users.OfType<Attendee>().FirstOrDefaultAsync(a => a.Id == id);
     }
 
     public async Task<(IdentityResult, Attendee)> CreateAsync(Attendee attendee, string password)

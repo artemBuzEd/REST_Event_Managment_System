@@ -10,6 +10,6 @@ public class EventCreateRequestDTO
     public DateTime EndTime { get; set; }
     
     public int EventCategoryId { get; set; }
-    public int OrganizerId { get; set; }
+    public string OrganizerId { get; set; }
     public int VenueId { get; set; }
 }
