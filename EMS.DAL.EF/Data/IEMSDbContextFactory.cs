@@ -1,6 +1,7 @@
 namespace EMS.DAL.EF.Data;
 
-public interface IEMSManagmentDbContextFactory
+public interface IEMSDbContextFactory
 {
     //EMSManagmentDbContext CreateDbContext();
+    
 }

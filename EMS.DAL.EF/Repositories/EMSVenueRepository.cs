@@ -9,7 +9,7 @@ namespace EMS.DAL.EF.Repositories;
 
 public class EMSVenueRepository : EMSGenericRepository<Venue>, IEMSVenueRepository 
 {
-    public EMSVenueRepository(EMSManagmentDbContext dbContext) : base(dbContext)
+    public EMSVenueRepository(EMSDbContext dbContext) : base(dbContext)
     {
         
     }

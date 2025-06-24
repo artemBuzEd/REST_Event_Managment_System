@@ -1,9 +1,11 @@
 using EMS.BLL.DTOs.Request.Registration;
 using EMS.BLL.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class RegistrationController : ControllerBase

@@ -47,7 +47,7 @@ public class EventService : IEventService
         return _event.Adapt<EventFullResponseDTO>();
     }
 
-    public async Task<IEnumerable<EventFullResponseDTO>> GetDetailedEventSpecificOrganizerIdAsync(int organizerId)
+    public async Task<IEnumerable<EventFullResponseDTO>> GetDetailedEventSpecificOrganizerIdAsync(string organizerId)
     {
         var events = await _unitOfWork.Events.GetAllByOrganizerIdAsync(organizerId);
         return events.Adapt<IEnumerable<EventFullResponseDTO>>();

@@ -9,5 +9,5 @@ public interface IEMSRegistrationRepository : IEMSGenericRepository<Registration
     Task<IEnumerable<Registration?>> GetByStatusAsync(string status);
     Task<IEnumerable<Registration>> GetAllBySpecificEventAsync(int id);
 
-    Task<Registration> GetAllByAttendeeAndEventId(int attendeeId, int eventId);
+    Task<Registration> GetAllByAttendeeAndEventId(string attendeeId, int eventId);
 }

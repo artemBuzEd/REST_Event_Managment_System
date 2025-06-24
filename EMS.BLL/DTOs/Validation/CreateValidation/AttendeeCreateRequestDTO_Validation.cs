@@ -15,5 +15,7 @@ public class AttendeeCreateRequestDTO_Validation : AbstractValidator<AttendeeCre
         
         RuleFor(model => model.Email)
             .NotNull().NotEmpty().WithMessage("Email cannot be null");
+        RuleFor(model => model.Password)
+            .NotNull().NotEmpty().WithMessage("Password cannot be null");
     }
 }

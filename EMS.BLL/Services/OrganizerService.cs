@@ -8,6 +8,7 @@ using EMS.DAL.EF.Entities.HelpModels;
 using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.UOW.Contract;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.BLL.Services;
 
@@ -22,11 +23,11 @@ public class OrganizerService : IOrganizerService
 
     public async Task<IEnumerable<OrganizerFullResponseDTO>> GetAllAsync()
     {
-        var organizers = await _unitOfWork.Organizers.GetAllAsync();
+        var organizers = await _unitOfWork.Organizers.GetAllAsync().ToListAsync();
         return organizers.Adapt<IEnumerable<OrganizerFullResponseDTO>>();
     }
 
-    public async Task<OrganizerFullResponseDTO> GetByIdAsync(int id)
+    public async Task<OrganizerFullResponseDTO> GetByIdAsync(string id)
     {
         var organizer = await isExists(id);
         return organizer.Adapt<OrganizerFullResponseDTO>();
@@ -34,60 +35,42 @@ public class OrganizerService : IOrganizerService
     
     public async Task<OrganizerFullResponseDTO> CreateAsync(OrganizerCreateRequestDTO dto, CancellationToken cancellationToken = default)
     {
-        var isExists = await _unitOfWork.Organizers.GetByEmailAsync(dto.Email);
-        if (isExists != null)
-        {
-            throw new ValidationException("Organizer with same email is already exists");
-        }
+        if((await _unitOfWork.Organizers.GetByEmailAsync(dto.Email)).Any())
+            throw new ValidationException("Organizer with the same e-mail already exists");
+        
         var organizerToCreate = dto.Adapt<Organizer>();
-        try
-        {
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            await _unitOfWork.Organizers.AddAsync(organizerToCreate);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            return organizerToCreate.Adapt<OrganizerFullResponseDTO>();
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw new ApplicationException("There was an error creating the organizer [Task<OrganizerFullResponseDTO> CreateAsync()]", e);
-        }
+        organizerToCreate.Email = dto.Email;
+        
+        var(result, created) = await _unitOfWork.Organizers.CreateAsync(organizerToCreate, dto.Password);
+        
+        if(!result.Succeeded)
+            throw new ValidationException(string.Join("; ",
+                result.Errors.Select(e => e.Description)));
+        
+        return created.Adapt<OrganizerFullResponseDTO>();
     }
 
-    public async Task<OrganizerFullResponseDTO> UpdateAsync(int id, OrganizerUpdateRequestDTO dto, CancellationToken cancellationToken = default)
+    public async Task<OrganizerFullResponseDTO> UpdateAsync(string id, OrganizerUpdateRequestDTO dto, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var organizerToChange = await isExists(id);
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            dto.Adapt(organizerToChange);
-            await _unitOfWork.Organizers.UpdateAsync(organizerToChange);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return organizerToChange.Adapt<OrganizerFullResponseDTO>();
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw new ApplicationException("There was an error updating the organizer", e);
-        }
+        var organizer = await isExists(id);
+        dto.Adapt(organizer);
+        
+        var result = await _unitOfWork.Organizers.UpdateAsync(organizer);
+        if (!result.Succeeded)
+            throw new ValidationException(string.Join("; ",
+                result.Errors.Select(e => e.Description)));
+        
+        return dto.Adapt<OrganizerFullResponseDTO>();
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var organizerToDelete = await isExists(id);
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            await _unitOfWork.Organizers.DeleteAsync(organizerToDelete);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            await _unitOfWork.CommitTransactionAsync(cancellationToken);
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw new ApplicationException("There was an error deleting the organizer", e);
-        }
+        var organizer = await isExists(id);
+        
+        var result = await _unitOfWork.Organizers.DeleteAsync(organizer);
+        if (!result.Succeeded)
+            throw new ValidationException(string.Join("; ",
+                result.Errors.Select(e => e.Description)));
     }
     
     public async Task<PagedList<OrganizerFullResponseDTO>> GetAllPaginatedAsync(OrganizerParameters parameters)
@@ -98,7 +81,7 @@ public class OrganizerService : IOrganizerService
         
         return new PagedList<OrganizerFullResponseDTO>(mapped, pagedOrganizer.TotalCount, pagedOrganizer.CurrentPage, pagedOrganizer.PageSize);
     }
-    private async Task<Organizer> isExists(int id)
+    private async Task<Organizer> isExists(string id)
     {
         var organizer = await _unitOfWork.Organizers.GetByIdAsync(id);
         if (organizer == null)

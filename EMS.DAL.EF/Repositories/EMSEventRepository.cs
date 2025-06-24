@@ -9,7 +9,7 @@ namespace EMS.DAL.EF.Repositories;
 
 public class EMSEventRepository : EMSGenericRepository<Event>, IEMSEventRepository
 {
-    public EMSEventRepository(EMSManagmentDbContext dbContext) : base(dbContext)
+    public EMSEventRepository(EMSDbContext dbContext) : base(dbContext)
     {
         
     }
@@ -34,9 +34,9 @@ public class EMSEventRepository : EMSGenericRepository<Event>, IEMSEventReposito
         return await _context.Events.Include(e => e.Venue).Include(e => e.EventCategory).Include(e => e.Organizer).AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
     }
 
-    public async Task<IEnumerable<Event?>> GetAllByOrganizerIdAsync(int id)
+    public async Task<IEnumerable<Event?>> GetAllByOrganizerIdAsync(string id)
     {
-        return await _context.Events.AsNoTracking().Where(e => e.OrganizerId == id).ToListAsync();
+        return await _context.Events.Include(e => e.Venue).Include(e => e.EventCategory).Include(e => e.Organizer).AsNoTracking().Where(e => e.OrganizerId == id).ToListAsync();
     }
 
     public async Task<PagedList<Event>> GetAllPaginatedAsync(EventParameters parameters, ISortHelper<Event> sortHelper)

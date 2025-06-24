@@ -2,10 +2,12 @@ using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Request.Attendee;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities.HelpModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class AttendeeController : ControllerBase
@@ -41,12 +43,13 @@ public class AttendeeController : ControllerBase
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetById(int id)
+    public async Task<IActionResult> GetById(string id)
     {
         var attendee = await _attendeeService.GetByIdAsync(id);
         return Ok(attendee);
     }
-
+    
+    [Authorize(Roles = "Attendee")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -56,24 +59,26 @@ public class AttendeeController : ControllerBase
         var attendee = await _attendeeService.CreateAsync(dto, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = attendee.Id }, attendee);
     }
-
-    [HttpPut("{id:int}")]
+    
+    [Authorize(Roles = "Attendee")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Update(int id, [FromBody] AttendeeUpdateRequestDTO dto,
+    public async Task<IActionResult> Update(string id, [FromBody] AttendeeUpdateRequestDTO dto,
         CancellationToken cancellationToken)
     {
         await _attendeeService.UpdateAsync(id, dto, cancellationToken);
         return NoContent();
     }
-
-    [HttpDelete("{id:int}")]
+    
+    [Authorize(Roles = "Attendee")]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete(int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete(string id, CancellationToken cancellationToken)
     {
         await _attendeeService.DeleteAsync(id, cancellationToken);
         return NoContent();

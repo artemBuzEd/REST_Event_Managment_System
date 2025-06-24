@@ -8,7 +8,7 @@ namespace EMS.DAL.EF.Repositories;
 
 public class EMSEventCategoryRepository : EMSGenericRepository<EventCategory>, IEMSEventCategoryRepository
 {
-    public EMSEventCategoryRepository(EMSManagmentDbContext dbContext) : base(dbContext)
+    public EMSEventCategoryRepository(EMSDbContext dbContext) : base(dbContext)
     {
         
     }

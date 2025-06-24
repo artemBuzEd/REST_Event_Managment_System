@@ -1,42 +1,64 @@
 using Bogus;
 using EMS.DAL.EF.Data.BogusSeed.Fakers;
 using EMS.DAL.EF.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.DAL.EF.Data.BogusSeed;
 
-public class DatabaseSeeder
+public static class DatabaseSeeder
 {
-    private EMSManagmentDbContext _context;
-
-    public DatabaseSeeder(EMSManagmentDbContext context)
+     public static async Task SeedAsync(IServiceProvider serviceProvider)
     {
-        _context = context;
-    }
+        var context = serviceProvider.GetRequiredService<EMSDbContext>();
+        var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+        var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+        
+        await context.Database.EnsureCreatedAsync();
 
-    public void Seed()
-    {
-        if (_context.Attendees.Any())
-        {
+        if (context.Users.Any())
             return;
+        
+        await roleManager.CreateAsync(new IdentityRole("Attendee"));
+        await roleManager.CreateAsync(new IdentityRole("Organizer"));
+
+        var attendees = new List<Attendee>();
+        var attendeeFaker = new AttendeeFaker();
+        
+        for (int i = 0; i < 200; i++)
+        {
+            var attendee = attendeeFaker.Generate();
+            var result = await userManager.CreateAsync(attendee, "Password123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(attendee, "Attendee");
+                attendees.Add(attendee);
+            }
         }
-
-        var attendeesFaker = new AttendeeFaker();
-        var attendees = attendeesFaker.Generate(200);
-        _context.Attendees.AddRange(attendees);
-
+        
+        var organizers = new List<Organizer>();
         var organizerFaker = new OrganizerFaker();
-        var organizers = organizerFaker.Generate(20);
-        _context.Organizers.AddRange(organizers);
+        
+        for (int i = 0; i < 20; i++)
+        {
+            var organizer = organizerFaker.Generate();
+            var result = await userManager.CreateAsync(organizer, "Password123!");
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(organizer, "Organizer");
+                organizers.Add(organizer);
+            }
+        }
 
         var venueFaker = new VenueFaker();
         var venues = venueFaker.Generate(20);
-        _context.Venues.AddRange(venues);
+        context.Venues.AddRange(venues);
 
         var eventCategoryFaker = new EventCategoryFaker();
-        var eventCategories = eventCategoryFaker.Generate(20);
-        _context.EventCategories.AddRange(eventCategories);
+        var eventCategories = eventCategoryFaker.Generate(10);
+        context.EventCategories.AddRange(eventCategories);
 
-        _context.SaveChanges();
+        await context.SaveChangesAsync();
 
         string[] eventTypeHelper = { "conference", "meeting", "course", "seminar", "expedition" };
 
@@ -44,14 +66,14 @@ public class DatabaseSeeder
             .RuleFor(e => e.Name, f => f.PickRandom(eventTypeHelper))
             .RuleFor(e => e.Description, f => f.Lorem.Sentence())
             .RuleFor(e => e.StartTime, f => f.Date.Between(DateTime.Now, DateTime.Now.AddMonths(2)))
-            .RuleFor(e => e.EndTime, (f, e) => { return f.Date.Between(e.StartTime, e.StartTime.AddHours(8)); })
+            .RuleFor(e => e.EndTime, (f, e) => f.Date.Between(e.StartTime, e.StartTime.AddHours(8)))
             .RuleFor(e => e.EventCategoryId, f => f.PickRandom(eventCategories).Id)
             .RuleFor(e => e.OrganizerId, f => f.PickRandom(organizers).Id)
             .RuleFor(e => e.VenueId, f => f.PickRandom(venues).Id);
 
         var events = eventFaker.Generate(20);
-        _context.Events.AddRange(events);
-        _context.SaveChanges();
+        context.Events.AddRange(events);
+        await context.SaveChangesAsync();
 
         int attendeeCount = 0;
         string[] _status = { "Confirmed", "Cancelled", "Withdrawn" };
@@ -61,9 +83,10 @@ public class DatabaseSeeder
                 f => f.Date.Between(DateTime.Now.AddMonths(-5), DateTime.Now.AddMonths(1)))
             .RuleFor(r => r.AttendeeId, f => attendees[attendeeCount++ % attendees.Count].Id)
             .RuleFor(r => r.EventId, f => f.PickRandom(events).Id);
+        
         var registration = registrationFaker.Generate(150);
-        _context.Registrations.AddRange(registration);
+        context.Registrations.AddRange(registration);
 
-        _context.SaveChanges();
+        await context.SaveChangesAsync();
     }
 }

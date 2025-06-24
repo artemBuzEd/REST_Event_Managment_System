@@ -8,8 +8,6 @@ public class OrganizerConfiguration : IEntityTypeConfiguration<Organizer>
 {
     public void Configure(EntityTypeBuilder<Organizer> builder)
     {
-        builder.ToTable("Organizers");
-        builder.HasKey(o => o.Id);
         
         builder.Property(o => o.Name).IsRequired()
             .HasMaxLength(150);
@@ -19,6 +17,5 @@ public class OrganizerConfiguration : IEntityTypeConfiguration<Organizer>
         
         builder.HasIndex(o => o.Email).IsUnique();
         
-        builder.Property(o => o.PhoneNumber).HasMaxLength(20);
     }
 }

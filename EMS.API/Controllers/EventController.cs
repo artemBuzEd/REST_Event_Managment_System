@@ -1,6 +1,7 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities.HelpModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
@@ -70,18 +71,19 @@ public class EventController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("detailed/organizer/{id:int}")]
+    [HttpGet("detailed/organizer/{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetDetailedEventBySpecificOrganizerId(int id)
+    public async Task<IActionResult> GetDetailedEventBySpecificOrganizerId(string id)
     {
         var events = await _eventService.GetDetailedEventSpecificOrganizerIdAsync(id);
         if (!events.Any())
             return NotFound($"No events found within this organizer id: {id}");
         return Ok(events);
     }
-
+    
+    [Authorize(Roles = "Organizer")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -91,7 +93,8 @@ public class EventController : ControllerBase
         var events = await _eventService.CreateAsync(dto, cancellationToken);
         return CreatedAtAction(nameof(GetById), new { id = events.Id }, events);
     }
-
+    
+    [Authorize(Roles = "Organizer")]
     [HttpPut("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -102,7 +105,7 @@ public class EventController : ControllerBase
         await _eventService.UpdateAsync(id, dto, cancellationToken);
         return NoContent();
     }
-
+    [Authorize(Roles = "Organizer")]
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]

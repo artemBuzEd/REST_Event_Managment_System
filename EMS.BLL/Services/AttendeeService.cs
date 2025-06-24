@@ -9,26 +9,27 @@ using EMS.DAL.EF.Entities.HelpModels;
 using EMS.DAL.EF.Helpers;
 using EMS.DAL.EF.UOW.Contract;
 using Mapster;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EMS.BLL.Services;
 
 public class AttendeeService : IAttendeeService
 {
     private readonly IUnitOfWork _unitOfWork;
-
-    public AttendeeService(IUnitOfWork unitOfWork)
+    
+    public AttendeeService(IUnitOfWork unitOfWork, UserManager<User> userManager)
     {
         _unitOfWork = unitOfWork;
     }
 
     public async Task<IEnumerable<AttendeeFullResponseDTO>> GetAllAsync()
     {
-        var attendees = await _unitOfWork.Attendees.GetAllAsync();
+        var attendees = await _unitOfWork.Attendees.GetAllAsync().ToListAsync();
         return attendees.Adapt<IEnumerable<AttendeeFullResponseDTO>>();
     }
 
-    public async Task<AttendeeFullResponseDTO> GetByIdAsync(int id)
+    public async Task<AttendeeFullResponseDTO> GetByIdAsync(string id)
     {
         var attendee = await isExistsAsync(id);
         return attendee.Adapt<AttendeeFullResponseDTO>();
@@ -36,62 +37,39 @@ public class AttendeeService : IAttendeeService
 
     public async Task<AttendeeFullResponseDTO> CreateAsync(AttendeeCreateRequestDTO dto, CancellationToken cancellationToken)
     {
-        var isExists = await _unitOfWork.Attendees.GetByEmailAsync(dto.Email);
-        if (isExists != null)
-        {
-            throw new ValidationException("Attendee with same email is already exists");
-        }
+        if (await _unitOfWork.Attendees.GetByEmailAsync(dto.Email) != null)
+            throw new ValidationException("An attendee with the same e-mail already exists");
+        
+        
         var attendeeToCreate = dto.Adapt<Attendee>();
-        try
-        {
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            _unitOfWork.Attendees.AddAsync(attendeeToCreate);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            await _unitOfWork.CommitTransactionAsync(cancellationToken);
-            return attendeeToCreate.Adapt<AttendeeFullResponseDTO>();
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw new ApplicationException("There was an error creating the attendee [Task<AttendeeFullResponseDTO> CreateAsync()]", e);
-        }
+        attendeeToCreate.UserName = dto.Email;
+        
+        var (result, createdAttendee) = await _unitOfWork.Attendees.CreateAsync(attendeeToCreate, dto.Password);
+        if(!result.Succeeded)
+            throw new ValidationException(string.Join("; ", result.Errors.Select(e => e.Description)));
+        
+        return attendeeToCreate.Adapt<AttendeeFullResponseDTO>();
     }
 
-    public async Task<AttendeeFullResponseDTO> UpdateAsync(int id, AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken = default)
+    public async Task<AttendeeFullResponseDTO> UpdateAsync(string id, AttendeeUpdateRequestDTO dto, CancellationToken cancellationToken = default)
     {
-        try
-        {
             var attendeeToChange = await isExistsAsync(id);
             dto.Adapt(attendeeToChange);
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            await _unitOfWork.Attendees.UpdateAsync(attendeeToChange);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            await _unitOfWork.CommitTransactionAsync(cancellationToken);
+            
+            var result = await _unitOfWork.Attendees.UpdateAsync(attendeeToChange);
+            if(!result.Succeeded)
+                throw new ValidationException(string.Join("; ", result.Errors.Select(e => e.Description)));
+            
             return attendeeToChange.Adapt<AttendeeFullResponseDTO>();
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw new ApplicationException("There was an error updating the attendee [Task<AttendeeFullResponseDTO> UpdateAsync()]", e);
-        }
     }
 
-    public async Task DeleteAsync(int id, CancellationToken cancellationToken = default)
+    public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)
     {
-        try
-        {
-            var attendeeToDelete = await isExistsAsync(id);
-            await _unitOfWork.BeginTransactionAsync(cancellationToken);
-            await _unitOfWork.Attendees.DeleteAsync(attendeeToDelete);
-            await _unitOfWork.CompleteAsync(cancellationToken);
-            await _unitOfWork.CommitTransactionAsync(cancellationToken);
-        }
-        catch (Exception e)
-        {
-            await _unitOfWork.RollbackTransactionAsync(cancellationToken);
-            throw new ApplicationException("There was an error deleting the attendee", e);
-        }
+        var attendeeToDelete = await isExistsAsync(id);
+        var result = await _unitOfWork.Attendees.DeleteAsync(attendeeToDelete);
         
+        if(!result.Succeeded)
+            throw new ValidationException(string.Join("; ", result.Errors.Select(e => e.Description)));
     }
 
     public async Task<PagedList<AttendeeFullResponseDTO>> GetAllPaginatedAsync(AttendeeParameters parameters)
@@ -102,7 +80,7 @@ public class AttendeeService : IAttendeeService
         
         return new PagedList<AttendeeFullResponseDTO>(mapped, pagedAttendees.TotalCount, pagedAttendees.CurrentPage, pagedAttendees.PageSize);
     }
-    private async Task<Attendee> isExistsAsync(int id)
+    private async Task<Attendee> isExistsAsync(string id)
     {
         var attendee = await _unitOfWork.Attendees.GetByIdAsync(id);
         if (attendee == null)

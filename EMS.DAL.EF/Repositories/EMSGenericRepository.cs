@@ -6,10 +6,10 @@ namespace EMS.DAL.EF.Repositories;
 
 public abstract class EMSGenericRepository<TEntity> : IEMSGenericRepository<TEntity> where TEntity : class
 {
-    protected readonly EMSManagmentDbContext _context;
+    protected readonly EMSDbContext _context;
     protected readonly DbSet<TEntity> table;
 
-    public EMSGenericRepository(EMSManagmentDbContext dbContext)
+    public EMSGenericRepository(EMSDbContext dbContext)
     {
         _context = dbContext;
         table = _context.Set<TEntity>();

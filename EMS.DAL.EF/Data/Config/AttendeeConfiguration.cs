@@ -8,8 +8,6 @@ public class AttendeeConfiguration : IEntityTypeConfiguration<Attendee>
 {
     public void Configure(EntityTypeBuilder<Attendee> builder)
     {
-        builder.ToTable("Attendees");
-        builder.HasKey(x => x.Id);
         
         builder.Property(a => a.FirstName).IsRequired()
             .HasMaxLength(100);
@@ -22,6 +20,5 @@ public class AttendeeConfiguration : IEntityTypeConfiguration<Attendee>
         
         builder.HasIndex(a => a.Email).IsUnique();
         
-        builder.Property(a => a.PhoneNumber).HasMaxLength(20);
     }
 }

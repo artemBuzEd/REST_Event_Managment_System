@@ -7,7 +7,7 @@ namespace EMS.DAL.EF.UOW;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly EMSManagmentDbContext _context;
+    private readonly EMSDbContext _context;
     private IDbContextTransaction _transaction;
     
     public IEMSAttendeeRepository Attendees { get; }
@@ -17,7 +17,7 @@ public class UnitOfWork : IUnitOfWork
     public IEMSRegistrationRepository Registrations { get; }
     public IEMSVenueRepository Venues { get; }
 
-    public UnitOfWork(EMSManagmentDbContext context, 
+    public UnitOfWork(EMSDbContext context, 
         IEMSAttendeeRepository attendees, 
         IEMSEventRepository events, 
         IEMSEventCategoryRepository eventCategories, 

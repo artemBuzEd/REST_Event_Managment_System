@@ -9,5 +9,6 @@ public class OrganizerCreateRequestDTO_Validation : AbstractValidator<OrganizerC
     {
         RuleFor(model => model.Name).NotNull().WithMessage("Name cannot be null");
         RuleFor(model => model.Email).NotNull().WithMessage("Email cannot be null");
+        RuleFor(model => model.Password).NotNull().WithMessage("Password cannot be null");
     }
 }

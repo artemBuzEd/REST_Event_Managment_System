@@ -3,11 +3,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace EMS.DAL.EF.Data;
 
-public class EMSManagmentDbContextFactory : IEMSManagmentDbContextFactory
+public class EMSDbContextFactory : IEMSDbContextFactory
 {
     private readonly string _dbConnectionString;
 
-    public EMSManagmentDbContextFactory(string dbConnectionString)
+    public EMSDbContextFactory(string dbConnectionString)
     {
         _dbConnectionString = dbConnectionString;
     }

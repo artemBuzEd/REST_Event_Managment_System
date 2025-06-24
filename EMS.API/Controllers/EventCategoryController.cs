@@ -1,9 +1,11 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class EventCategoryController : ControllerBase
@@ -52,7 +54,8 @@ public class EventCategoryController : ControllerBase
         var eventCategory = await _eventCategoryService.GetByNameAsync(name);
         return Ok(eventCategory);
     }
-
+    
+    [Authorize(Roles = "Organizer")]
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]

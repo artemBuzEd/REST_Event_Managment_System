@@ -120,3 +120,12 @@
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/EMS.BLL.dll
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/EMS.BLL.pdb
 /Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/System.Linq.Dynamic.Core.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.AspNetCore.Authentication.JwtBearer.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.IdentityModel.Abstractions.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.IdentityModel.JsonWebTokens.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.IdentityModel.Logging.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/Microsoft.IdentityModel.Tokens.dll
+/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/bin/Debug/net8.0/System.IdentityModel.Tokens.Jwt.dll

@@ -1,10 +1,12 @@
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.Services.Contracts;
 using EMS.DAL.EF.Entities.HelpModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EMS.API.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class VenueController : ControllerBase

@@ -1,9 +1,9 @@
+using System.Text;
 using EMS.API.Middleware;
 using EMS.DAL.EF.Data;
 using EMS.DAL.EF.Data.BogusSeed;
 using EMS.DAL.EF.Repositories;
 using EMS.DAL.EF.Repositories.Contracts;
-using EMS.BLL;
 using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Request.Attendee;
 using EMS.BLL.DTOs.Request.Registration;
@@ -17,22 +17,54 @@ using EMS.DAL.EF.UOW.Contract;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContext<EMSManagmentDbContext>(options =>
+builder.Services.AddDbContext<EMSDbContext>(options =>
 {
     string connectionString = builder.Configuration.GetConnectionString("DbConnectionString");
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 });
 
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<EMSDbContext>()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        BearerFormat = "JWT",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = JwtBearerDefaults.AuthenticationScheme,
+        Description = "Input your JWT access token",
+    });
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[]{}
+        }
+    });
+});
+
+builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IEMSAttendeeRepository, EMSAttendeeRepository>();
 builder.Services.AddScoped<IEMSEventRepository, EMSEventRepository>();
 builder.Services.AddScoped<IEMSEventCategoryRepository, EMSEventCategoryRepository>();
@@ -64,6 +96,36 @@ builder.Services.AddScoped<IValidator<EventUpdateRequestDTO>, EventUpdateRequest
 builder.Services.AddScoped<IValidator<OrganizerUpdateRequestDTO>, OrganizerUpdateRequestDTO_Validation>();
 builder.Services.AddScoped<IValidator<VenueUpdateRequestDTO>, VenueUpdateRequestDTO_Validation>();
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = builder.Configuration["JWT:Issuer"],
+            ValidAudience = builder.Configuration["JWT:Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]!)),
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateIssuerSigningKey = true,
+            ValidateLifetime = true,
+        }; 
+    });
+
+builder.Services.AddIdentityCore<User>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 8;
+}).AddRoles<IdentityRole>().AddEntityFrameworkStores<EMSDbContext>().AddDefaultTokenProviders();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
@@ -71,7 +133,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     try
     {
-        var context = services.GetRequiredService<EMSManagmentDbContext>();
+        var context = services.GetRequiredService<EMSDbContext>();
         var created = context.Database.EnsureCreated();
         if (!created)
         {
@@ -89,13 +151,18 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
-using (var scope = app.Services.CreateScope()){
-    var dbContext = scope.ServiceProvider.GetRequiredService<EMSManagmentDbContext>();
-    
-    var seeder = new DatabaseSeeder(dbContext);
-    seeder.Seed();
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        await DatabaseSeeder.SeedAsync(services);
+    }
+    catch (Exception ex)
+    {
+        throw new Exception($"Error: Could not seed database : {ex.Message}");
+    }
 }
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -107,6 +174,7 @@ app.UseRouting();
 app.UseMiddleware<GlobalExceptionHandler>();
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

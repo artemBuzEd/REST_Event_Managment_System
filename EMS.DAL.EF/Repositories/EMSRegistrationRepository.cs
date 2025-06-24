@@ -7,7 +7,7 @@ namespace EMS.DAL.EF.Repositories;
 
 public class EMSRegistrationRepository : EMSGenericRepository<Registration>, IEMSRegistrationRepository
 {
-    public EMSRegistrationRepository(EMSManagmentDbContext dbContext) : base(dbContext)
+    public EMSRegistrationRepository(EMSDbContext dbContext) : base(dbContext)
     {
         
     }
@@ -35,7 +35,7 @@ public class EMSRegistrationRepository : EMSGenericRepository<Registration>, IEM
             .ToListAsync();
     }
 
-    public async Task<Registration?> GetAllByAttendeeAndEventId(int attendeeId, int eventId)
+    public async Task<Registration?> GetAllByAttendeeAndEventId(string attendeeId, int eventId)
     {
         return await _context.Registrations.AsNoTracking()
             .Where(r => r.AttendeeId == attendeeId && r.EventId == eventId)

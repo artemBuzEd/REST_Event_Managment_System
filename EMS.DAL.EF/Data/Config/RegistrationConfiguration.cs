@@ -11,8 +11,8 @@ public class RegistrationConfiguration : IEntityTypeConfiguration<Registration>
         builder.ToTable("Registrations");
         builder.HasKey(e => e.Id);
 
-        builder.Property(r => r.RegistrationDate).IsRequired()
-            .HasDefaultValueSql("CURDATE()");
+        //builder.Property(r => r.RegistrationDate).IsRequired()
+        //    .HasDefaultValueSql("CURDATE()");
         
         builder.Property(r => r.Status).IsRequired()
             .HasMaxLength(50);

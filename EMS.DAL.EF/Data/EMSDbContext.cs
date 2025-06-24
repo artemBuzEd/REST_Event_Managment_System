@@ -1,11 +1,13 @@
 using EMS.DAL.EF.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EMS.DAL.EF.Data
 {
-    public partial class EMSManagmentDbContext : DbContext
+    public partial class EMSDbContext : IdentityDbContext<User>
     {
-        public EMSManagmentDbContext(DbContextOptions<EMSManagmentDbContext> options) : base(options)
+        public EMSDbContext(DbContextOptions<EMSDbContext> options) : base(options)
         {
         }
         /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -13,18 +15,20 @@ namespace EMS.DAL.EF.Data
             optionsBuilder.UseMySql("server=localhost;database=EMS;User=root;Password=", ServerVersion.AutoDetect("server=localhost;database=EMS;User=root;Password"));
         }*/
 
-        /*protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(this.GetType().Assembly);
-        }*/
+        }
         
-        public virtual DbSet<Attendee> Attendees { get; set; } = null!;
         public virtual DbSet<Event> Events { get; set; } = null!;
         public virtual DbSet<EventCategory> EventCategories { get; set; } = null!;
-        public virtual DbSet<Organizer> Organizers { get; set; } = null!;
         public virtual DbSet<Registration> Registrations { get; set; } = null!;
         public virtual DbSet<Venue> Venues { get; set; } = null!;
+        
+        public virtual DbSet<Attendee> Attendees { get; set; } = null!;
+        
+        public virtual DbSet<Organizer> Organizers { get; set; } = null!;
 
     }
 }

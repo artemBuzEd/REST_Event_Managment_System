@@ -22,8 +22,8 @@ public class EventConfiguration : IEntityTypeConfiguration<Event>
         builder.Property(e => e.EndTime).IsRequired()
             .HasColumnType("datetime");
         
-        builder.Property(e => e.CreatedOn).IsRequired()
-            .HasDefaultValueSql("CURDATE()");
+        //builder.Property(e => e.CreatedOn).IsRequired()
+        //    .HasDefaultValueSql("CURDATE()");
         
         // Organizer - Event RELATIONSHIP
         builder.HasOne(e => e.Organizer)
