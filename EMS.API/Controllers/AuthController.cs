@@ -1,10 +1,10 @@
 using EMS.BLL.DTOs.Auth;
 using EMS.BLL.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.Data;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EMS.API.Controllers;
+namespace EMS.JWT.Controller;
 
 [AllowAnonymous]
 [ApiController]
@@ -39,5 +39,23 @@ public class AuthController : ControllerBase
         if(successful)
             return Ok(new {message = "Registration successful"}); 
         return BadRequest(new {message = "User may exist"});
+    }
+    [HttpPost("refresh-token")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    public async Task<IActionResult> RefreshToken()
+    {
+        var ipAddress = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "N/A";
+        var result = await _jwtService.RefreshTokenAsync(ipAddress);
+        return Ok(result);
+    }
+    [HttpPost("logout")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<IActionResult> Logout()
+    {
+        await _jwtService.LogoutAsync();
+        return Ok(new {message = "Logout successful"});
     }
 }

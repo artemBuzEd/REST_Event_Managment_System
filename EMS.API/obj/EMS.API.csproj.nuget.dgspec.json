@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj": {}
+    "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.API/EMS.API.csproj": {}
   },
   "projects": {
-    "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj": {
+    "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.API/EMS.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj",
+        "projectUniqueName": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.API/EMS.API.csproj",
         "projectName": "EMS.API",
-        "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/EMS.API.csproj",
+        "projectPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.API/EMS.API.csproj",
         "packagesPath": "/Users/artembuziak/.nuget/packages/",
-        "outputPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.API/obj/",
+        "outputPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.API/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/artembuziak/.nuget/NuGet/NuGet.Config"
@@ -26,11 +26,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj": {
-                "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj"
+              "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj": {
+                "projectPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj"
               },
-              "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
-                "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj"
+              "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
+                "projectPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj"
               }
             }
           }
@@ -112,14 +112,14 @@
         }
       }
     },
-    "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj": {
+    "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj",
+        "projectUniqueName": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj",
         "projectName": "EMS.BLL",
-        "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj",
+        "projectPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.BLL/EMS.BLL.csproj",
         "packagesPath": "/Users/artembuziak/.nuget/packages/",
-        "outputPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.BLL/obj/",
+        "outputPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.BLL/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/artembuziak/.nuget/NuGet/NuGet.Config"
@@ -134,8 +134,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
-                "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj"
+              "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
+                "projectPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj"
               }
             }
           }
@@ -155,6 +155,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "FluentEmail.Core": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
+            "FluentEmail.Smtp": {
+              "target": "Package",
+              "version": "[3.0.2, )"
+            },
             "FluentValidation": {
               "target": "Package",
               "version": "[12.0.0, )"
@@ -188,14 +196,14 @@
         }
       }
     },
-    "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
+    "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj",
+        "projectUniqueName": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj",
         "projectName": "EMS.DAL.EF",
-        "projectPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj",
+        "projectPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/EMS.DAL.EF.csproj",
         "packagesPath": "/Users/artembuziak/.nuget/packages/",
-        "outputPath": "/Users/artembuziak/RiderProjects/DotNETProject/EMS.DAL.EF/obj/",
+        "outputPath": "/Users/artembuziak/DotNetProjects/DotNETProject/EMS.DAL.EF/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/artembuziak/.nuget/NuGet/NuGet.Config"

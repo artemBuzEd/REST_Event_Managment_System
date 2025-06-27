@@ -1,5 +1,6 @@
 using System.Text;
 using EMS.API.Middleware;
+using EMS.BLL.DTOs.Auth;
 using EMS.DAL.EF.Data;
 using EMS.DAL.EF.Data.BogusSeed;
 using EMS.DAL.EF.Repositories;
@@ -8,6 +9,7 @@ using EMS.BLL.DTOs.Request;
 using EMS.BLL.DTOs.Request.Attendee;
 using EMS.BLL.DTOs.Request.Registration;
 using EMS.BLL.DTOs.Validation;
+using EMS.BLL.DTOs.Validation.Auth;
 using EMS.BLL.DTOs.Validation.UpdateValidation;
 using EMS.BLL.Services;
 using EMS.BLL.Services.Contracts;
@@ -125,6 +127,11 @@ builder.Services.AddIdentityCore<User>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 8;
 }).AddRoles<IdentityRole>().AddEntityFrameworkStores<EMSDbContext>().AddDefaultTokenProviders();
+
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IValidator<LoginRequestDTO>, LoginRequestDTO_Validation>();
+builder.Services.AddScoped<IValidator<RegistrRequestDTO>, RegistrRequestDTO_Validation>();
+builder.Services.AddScoped<IValidator<RefreshTokenRequestDTO>, RefreshTokenRequestDTO_Validation>();
 
 var app = builder.Build();
 

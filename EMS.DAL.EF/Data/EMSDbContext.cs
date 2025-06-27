@@ -1,4 +1,5 @@
 using EMS.DAL.EF.Entities;
+using EMS.DAL.EF.Jwt;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ namespace EMS.DAL.EF.Data
         public virtual DbSet<Attendee> Attendees { get; set; } = null!;
         
         public virtual DbSet<Organizer> Organizers { get; set; } = null!;
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } = null!;
 
     }
 }
