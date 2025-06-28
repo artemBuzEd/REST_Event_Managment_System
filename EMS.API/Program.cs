@@ -23,6 +23,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using EMS.BLL.Config;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -97,6 +98,8 @@ builder.Services.AddScoped<IValidator<AttendeeUpdateRequestDTO>, AttendeeUpdateR
 builder.Services.AddScoped<IValidator<EventUpdateRequestDTO>, EventUpdateRequestDTO_Validation>();
 builder.Services.AddScoped<IValidator<OrganizerUpdateRequestDTO>, OrganizerUpdateRequestDTO_Validation>();
 builder.Services.AddScoped<IValidator<VenueUpdateRequestDTO>, VenueUpdateRequestDTO_Validation>();
+
+MapsterConfig.RegisterMappings();
 
 builder.Services.AddAuthentication(options =>
     {
